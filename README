@@ -1,8 +1,22 @@
-This is the starter code for the Anagrams workshop. 
+Changed from starter code for the Anagrams workshop. 
+
 This workshop is part of the Applied CS with Android course:
+
 
 http://g.co/cswithandroid
 
-Check the website for detailed instructions on how to implement this activity.
+Start code can be found in the website above. 
 
-Version 1.0
+How to play:
+Given a word, find the anagrams of it by adding one letter.
+However, you cannot use the given word as a substring.
+Example:
+Given: Dog
+ok: good
+not ok: dogs
+
+Click the drop down menu on the top right corner to 
+increase/decrease the given word length.
+It won't go below 3 or above 7. 
+
+Have fun. 

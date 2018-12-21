@@ -26,6 +26,7 @@ import android.text.InputType;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -54,6 +55,7 @@ public class AnagramsActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         AssetManager assetManager = getAssets();
+        //read the words.txt dictionary file
         try {
             InputStream inputStream = assetManager.open("words.txt");
             dictionary = new AnagramDictionary(new InputStreamReader(inputStream)); //gets the dictionary
@@ -104,7 +106,10 @@ public class AnagramsActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_anagrams, menu);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_anagrams,menu);
+
+
         return true;
     }
 
@@ -115,12 +120,22 @@ public class AnagramsActivity extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch(id){
+            case R.id.increase:
+                Toast.makeText(this,"word length increased",Toast.LENGTH_SHORT).show();
+
+                dictionary.increaseWordLength();
+                return true;
+            case R.id.decrease:
+                Toast.makeText(this,"word length decreased",Toast.LENGTH_SHORT).show();
+                dictionary.decreaseWordLength();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+
         }
 
-        return super.onOptionsItemSelected(item);
+
     }
 
     //Main action here:
@@ -130,8 +145,10 @@ public class AnagramsActivity extends AppCompatActivity {
         EditText editText = (EditText) findViewById(R.id.editText);
         TextView resultView = (TextView) findViewById(R.id.resultView);
         if (currentWord == null) {
+            //at the start, pick the next word.
             currentWord = dictionary.pickGoodStarterWord();
             anagrams = dictionary.getAnagramsWithOneMoreLetter(currentWord);//gets anagram of the selected word
+            //
             gameStatus.setText(Html.fromHtml(String.format(START_MESSAGE, currentWord.toUpperCase(), currentWord)));
             fab.setImageResource(android.R.drawable.ic_menu_help);
             fab.hide();
@@ -143,6 +160,7 @@ public class AnagramsActivity extends AppCompatActivity {
             imm.showSoftInput(editText, InputMethodManager.SHOW_IMPLICIT);
         } else {
             editText.setText(currentWord);
+            //dictionary.wordlength can be changed here.
             editText.setEnabled(false);
             fab.setImageResource(android.R.drawable.ic_media_play);
             currentWord = null;

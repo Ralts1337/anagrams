@@ -31,7 +31,7 @@ public class AnagramDictionary {
     private static final int MIN_NUM_ANAGRAMS = 3;
     private static final int DEFAULT_WORD_LENGTH = 3;
     private static final int MAX_WORD_LENGTH = 7;
-    int wordlength = DEFAULT_WORD_LENGTH;
+    public int wordlength = DEFAULT_WORD_LENGTH;
     private Random random = new Random();
     HashSet<String> wordSet; //dictionary. contains all words.
     HashMap<String, ArrayList> lettersToWord;
@@ -123,6 +123,7 @@ public class AnagramDictionary {
         return result;
     }
 
+    //called by Default action
     public String pickGoodStarterWord() {
 
 
@@ -148,12 +149,27 @@ public class AnagramDictionary {
         result = possibleWords.get(randomNumberOne);
 
 
-        if (wordlength < maxlength) {
-            wordlength += 1;
-        }
+
 
         return result;
 
+    }
+
+    public void increaseWordLength(){
+        if(this.wordlength>=7){
+            this.wordlength=7;
+        }
+        else{
+            this.wordlength+=1;
+        }
+    }
+    public void decreaseWordLength(){
+        if(this.wordlength<=3){
+            this.wordlength=3;
+        }
+        else{
+            this.wordlength-=1;
+        }
     }
 
     //Takes input string and returns it in alphabetical sorted order
